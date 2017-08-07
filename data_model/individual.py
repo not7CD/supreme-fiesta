@@ -15,4 +15,4 @@ class Individual(object):
         pass
 
     def __repr__(self):
-        return 'Individual("%s", schedule=%s)' % (self.name, self.schedule)
+        return 'Individual("%s", schedules=%s)' % (self.name, len(self.schedule))

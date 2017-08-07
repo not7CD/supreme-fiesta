@@ -2,19 +2,28 @@
 from datetime import date, timedelta
 from data_model.individual import Individual
 from data_model.shift import create_shift
+from csv_scrap.scraper import open_csv
 
 # def create_shift_datetime(start_dt, end_dt):
 #     return create_shift()
 
 if __name__ == '__main__':
-    SHIFT_LENGTH = timedelta(hours=8)
-    print(SHIFT_LENGTH)
-    schedule = []
+    files = ['example/2017-08-09.csv', 'example/2017-08-10.csv']
 
-    for day in range(7):
-        schedule.append(create_shift(
-            date.today() + timedelta(days=day), timedelta(hours=6), timedelta(hours=8)))
+    shifts_named = []
 
-    that_guy = Individual('Jan Kowalski', schedule)
-    print(that_guy)
-    # main()
+    for file_name in files:
+        shifts_named.extend(open_csv(file_name))
+
+    for row in shifts_named:
+        print(row)
+
+    individuals = {}
+
+    for name, shift in shifts_named:
+        if name in individuals:
+            individuals[name].schedule.append(shift)
+        else:
+            individuals[name] = Individual(name, [shift])
+
+    print(individuals)
